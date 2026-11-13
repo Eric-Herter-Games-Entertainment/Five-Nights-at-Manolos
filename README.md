@@ -14,18 +14,27 @@
 | **FNAM: Pizzeria Simulator** | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20PS/Android/README.md) | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20PS/iOS/README.md) | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20PS/Windows/README.md) | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20PS/HTML%20Multiplatform/README.md) | Pendiente |
 | **FNAM: Ultimate Custom Night** | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20UCN/Android/README.md) | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20UCN/iOS/README.md) | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20UCN/Windows/README.md) | [Pendiente](Five%20Nights%20at%20Manolo%E2%80%99s%20UCN/HTML%20Multiplatform/README.md) | Pendiente |
 
-## Five Nights at Manolo's 1 — archivos disponibles
+# Five Nights at Manolo's (FNAM)
 
-- **Android:** [Descargar FiveNightsatManolo_s-v1.0-signed.apk](https://github.com/Eric-Herter-Games-Entertainment/Five-Nights-at-Manolos/releases/download/Five_Nights_at_Manolo's_1_Android_Edition/FiveNightsatManolo_s-v1.0-signed.apk)
-- **iOS / iPhone:** [Descargar FiveNightsatManolo_s.ipa](https://github.com/Eric-Herter-Games-Entertainment/Five-Nights-at-Manolos/releases/download/Five_Nights_at_Manolo's_Iphone_Edition/FiveNightsatManolo_s.ipa)
-- **Windows:** [Descargar FiveNightsatManolo_s.exe](https://github.com/Eric-Herter-Games-Entertainment/Five-Nights-at-Manolos/releases/download/Five_Nights_at_Manolo's_1/FiveNightsatManolo_s.exe)
-- **HTML / Multiplataforma:** [Descargar FNAF_TODO_EN_UNO.html](https://github.com/Eric-Herter-Games-Entertainment/Five-Nights-at-Manolos/releases/download/Five_Nights_at_Manolo's_Multiplatform_Edition/FNAF_TODO_EN_UNO.html)
+Five Nights at Manolo's (FNAM) es una colección de juegos fan-made inspirados en la saga Five Nights at Freddy's. El proyecto busca reunir diferentes entregas de la franquicia en una versión propia, con sus respectivos juegos y adaptaciones.
 
-> **Importante:** cada enlace corresponde exclusivamente a FNAM 1. Las demás entregas aún no tienen releases publicadas aquí.
+## Juegos incluidos
 
-## Organización del repositorio
+- Five Nights at Manolo's 1
+- Five Nights at Manolo's 2
+- Five Nights at Manolo's 3
+- Five Nights at Manolo's 4
+- Five Nights at Manolo's: Sister Location (SL)
+- Five Nights at Manolo's: Pizzeria Simulator (PS) – Posiblemente.
+- Five Nights at Manolo's: Ultimate Custom Night (UCN)
 
-Cada juego tiene sus propias carpetas `Android`, `iOS`, `Windows` y `HTML Multiplatform`. En cada una hay una página con su descarga o su estado de publicación. Los archivos grandes se conservan en [GitHub Releases](https://github.com/Eric-Herter-Games-Entertainment/Five-Nights-at-Manolos/releases) para evitar duplicaciones y los límites de tamaño de Git.
+## Plataformas disponibles
+
+- Windows
+- Android
+- iPhone / iPad (iOS)
+- HTML5 (navegador)
+- Linux (próximamente)
 
 ## Créditos
 
@@ -35,3 +44,4 @@ Cada juego tiene sus propias carpetas `Android`, `iOS`, `Windows` y `HTML Multip
 ## Aviso legal
 
 Five Nights at Manolo's es un proyecto fan-made, no oficial y sin afiliación con Scott Cawthon ni con los responsables oficiales de Five Nights at Freddy's. Los derechos de los personajes, nombres y elementos originales pertenecen a sus respectivos propietarios.
+
