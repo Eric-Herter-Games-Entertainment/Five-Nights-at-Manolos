@@ -24,7 +24,7 @@ const number=document.createElement("span");number.className="poster-id";number.
 const detail=document.createElement("div");detail.className="poster-text";
 const title=document.createElement("h3");title.textContent=name;
 const para=document.createElement("p");para.textContent=desc;
-const action=document.createElement("a");action.className="poster-link";action.href=available?"#descargas":repo+"/tree/main/"+encodeURIComponent(path);action.textContent=available?"Elegir plataforma":"Ver carpeta";
+const action=document.createElement("a");action.className="poster-link";action.href=available?"#descargas":repo+"/releases";action.textContent=available?"Elegir plataforma":"Ver lanzamientos";
 detail.append(title,para,action);card.append(photo,detail);catalog.append(card);
 });
 const grid=document.querySelector("#platforms");
