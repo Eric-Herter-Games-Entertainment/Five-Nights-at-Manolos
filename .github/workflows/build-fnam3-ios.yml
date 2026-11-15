@@ -1,0 +1,78 @@
+name: Build FNAM 3 iOS (unsigned IPA)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/build-fnam3-ios.yml"
+      - "ios/FNAM3/**"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compile FNAM 3 unsigned IPA
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch and verify official FNAM 3 Mobile HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ios/FNAM3/Web
+          curl --fail --location --retry 3 --connect-timeout 30 \
+            'https://github.com/Eric-Herter-Games-Entertainment/Five-Nights-at-Manolos/releases/download/FNAM3_Multiplatfor_Edition/FNAM3_Mobile.html' \
+            -o ios/FNAM3/Web/index.html
+          echo 'cd3e58f8206d561baa28c8482f7993ee481ff8a920d800433e8bd31168118633  ios/FNAM3/Web/index.html' | shasum -a 256 --check
+
+      - name: Prepare FNAM 3 app icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ios/FNAM3/Assets.xcassets/AppIcon.appiconset
+          sips -s format png -z 1024 1024 ios/FNAM3/icon-source.jpg \
+            --out ios/FNAM3/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+          sips -g pixelWidth -g pixelHeight ios/FNAM3/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate --spec ios/FNAM3/project.yml --project ios/FNAM3
+
+      - name: Build app for iPhone without signing
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/FNAM3/FNAM3.xcodeproj \
+            -scheme FNAM3 -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$RUNNER_TEMP/FNAM3Derived" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Package unsigned IPA with icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP="$RUNNER_TEMP/FNAM3Derived/Build/Products/Release-iphoneos/FNAM3.app"
+          test -d "$APP"
+          test -f "$APP/Web/index.html"
+          test -f "$APP/Assets.car"
+          mkdir -p "$RUNNER_TEMP/fnam3-ipa/Payload"
+          ditto "$APP" "$RUNNER_TEMP/fnam3-ipa/Payload/FNAM3.app"
+          cd "$RUNNER_TEMP/fnam3-ipa"
+          zip -qry "$GITHUB_WORKSPACE/FNAM3-unsigned.ipa" Payload
+          unzip -tq "$GITHUB_WORKSPACE/FNAM3-unsigned.ipa"
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: FNAM3-unsigned-IPA
+          path: FNAM3-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 30
