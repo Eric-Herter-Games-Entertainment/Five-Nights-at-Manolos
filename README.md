@@ -1,3 +1,4 @@
+<img width="2032" height="976" alt="title" src="https://github.com/user-attachments/assets/bdd476b1-b1c2-4ed3-babc-33f915766d33" />
 # Five Nights at Manolo's (FNAM)
 
 Proyecto fan-made de Eric Herter Games Entertainment. Las descargas se distribuyen mediante **GitHub Releases**, sin carpetas separadas por entrega en el repositorio.
