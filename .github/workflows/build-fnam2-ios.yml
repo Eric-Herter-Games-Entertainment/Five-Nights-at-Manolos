@@ -1,0 +1,77 @@
+name: Build FNAM 2 iOS (unsigned IPA)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/build-fnam2-ios.yml"
+      - "ios/FNAM2/**"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build unsigned FNAM 2 IPA
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download verified mobile HTML from FNAM 2 release
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ios/FNAM2/Web
+          curl --fail --location --retry 3 --connect-timeout 30 \
+            'https://github.com/Eric-Herter-Games-Entertainment/Five-Nights-at-Manolos/releases/download/Five_Nights_at_Manolo%27s_2_Multiplatform_Version/FNAF2_MOVIL.html' \
+            --output ios/FNAM2/Web/index.html
+          echo 'f4b768234988a126c3d6af6cc7e50fc1ada97646509bf4870212aac5d7c72dc9  ios/FNAM2/Web/index.html' | shasum -a 256 --check
+
+      - name: Generate iOS app icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ios/FNAM2/Assets.xcassets/AppIcon.appiconset
+          sips -s format png -z 1024 1024 ios/FNAM2/icon-source.jpg \
+            --out ios/FNAM2/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate --spec ios/FNAM2/project.yml --project ios/FNAM2
+
+      - name: Build iPhone app without code signing
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/FNAM2/FNAM2.xcodeproj \
+            -scheme FNAM2 -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$RUNNER_TEMP/FNAM2Derived" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Package unsigned IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP="$RUNNER_TEMP/FNAM2Derived/Build/Products/Release-iphoneos/FNAM2.app"
+          test -d "$APP"
+          test -f "$APP/Web/index.html"
+          test -f "$APP/Assets.car"
+          mkdir -p "$RUNNER_TEMP/fnam2-ipa/Payload"
+          ditto "$APP" "$RUNNER_TEMP/fnam2-ipa/Payload/FNAM2.app"
+          cd "$RUNNER_TEMP/fnam2-ipa"
+          zip -qry "$GITHUB_WORKSPACE/FNAM2-unsigned.ipa" Payload
+          unzip -tq "$GITHUB_WORKSPACE/FNAM2-unsigned.ipa"
+
+      - name: Upload unsigned IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FNAM2-unsigned-IPA
+          path: FNAM2-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 30
